@@ -1,9 +1,9 @@
 ﻿using CookBook.BL.Api.Facades;
-using CookBook.BL.Api.Models.Recipe;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 using System;
 using System.Collections.Generic;
+using CookBook.Models;
 
 namespace CookBook.Api.Controllers.v3
 {

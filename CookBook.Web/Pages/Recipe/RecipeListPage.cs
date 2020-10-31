@@ -1,9 +1,9 @@
-﻿using CookBook.BL.Api.Models.Recipe;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using CookBook.Models;
 
 namespace CookBook.Web.Pages
 {

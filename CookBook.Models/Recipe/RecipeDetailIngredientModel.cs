@@ -1,7 +1,7 @@
 ﻿using CookBook.Models;
 using EnumsNET;
 
-namespace CookBook.BL.Api.Models.Recipe
+namespace CookBook.Models
 {
     public class RecipeDetailIngredientModel
     {

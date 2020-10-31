@@ -2,7 +2,7 @@
 using EnumsNET;
 using System;
 
-namespace CookBook.BL.Api.Models.Recipe
+namespace CookBook.Models
 {
     public class RecipeListModel
     {

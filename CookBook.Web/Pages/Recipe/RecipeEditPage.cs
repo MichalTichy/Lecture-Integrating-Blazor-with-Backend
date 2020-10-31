@@ -1,5 +1,4 @@
-﻿using CookBook.BL.Api.Models.Recipe;
-using CookBook.Models;
+﻿using CookBook.Models;
 using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;
 using System;

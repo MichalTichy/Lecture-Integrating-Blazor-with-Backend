@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CookBook.BL.Api.Models.Recipe
+namespace CookBook.Models
 {
     public class RecipeDetailModel
     {

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using CookBook.BL.Api.Models.Recipe;
 using CookBook.Common.Extensions;
 using CookBook.DAL.Entities;
+using CookBook.Models;
 
 namespace CookBook.BL.Api.MapperProfiles
 {
