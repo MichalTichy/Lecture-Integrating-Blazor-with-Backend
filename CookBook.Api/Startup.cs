@@ -70,6 +70,14 @@ namespace CookBook.Api
             new DALInstaller().Install(services);
             new BLApiInstaller().Install(services);
 
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                    builder.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
+            });
+
             services.AddAutoMapper(typeof(DALInstaller), typeof(BLApiInstaller));
         }
 
@@ -81,6 +89,8 @@ namespace CookBook.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors();
 
             app.UseHttpsRedirection();
 
