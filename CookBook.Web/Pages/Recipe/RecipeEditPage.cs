@@ -7,20 +7,27 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using CookBook.WEB.BL.Facades;
 
 namespace CookBook.Web.Pages
 {
     public partial class RecipeEditPage
     {
+
         [Inject]
-        private HttpClient httpClient { get; set; }
+        private NavigationManager navigationManager { get; set; }
+
+        [Inject]
+        private RecipesFacade RecipeFacade { get; set; } 
+        [Inject]
+        private IngredientsFacade IngredientFacade { get; set; } 
 
         private RecipeDetailModel Data { get; set; }
 
         [Parameter]
         public Guid Id { get; set; }
 
-        public IList<IngredientListModel> Ingredients { get; set; } = new List<IngredientListModel>();
+        public ICollection<IngredientListModel> Ingredients { get; set; } = new List<IngredientListModel>();
 
         public RecipeDetailIngredientModel NewIngredientModel { get; set; } = new RecipeDetailIngredientModel();
 
@@ -36,6 +43,18 @@ namespace CookBook.Web.Pages
             set => Data.Duration = new TimeSpan(DurationHours, value, 0);
         }
 
+        public string SelectedIngredientName
+        {
+            get
+            {
+                return NewIngredientModel.Ingredient.Name;
+            }
+            set
+            {
+                NewIngredientModel.Ingredient = Ingredients.SingleOrDefault(t => t.Name == value);
+            }
+        }
+
         protected override async Task OnInitializedAsync()
         {
             if (Id == Guid.Empty)
@@ -47,15 +66,36 @@ namespace CookBook.Web.Pages
             }
             else
             {
-                var response = await httpClient.GetAsync("sample-data/recipes.json");
-                var responseText = await response.Content.ReadAsStringAsync();
-                var dataList = JsonConvert.DeserializeObject<List<RecipeDetailModel>>(responseText);
-                Data = dataList.Single(item => item.Id == Id);
+                Data = await RecipeFacade.GetRecipesAsync(Id);
             }
 
-            Ingredients = await httpClient.GetFromJsonAsync<List<IngredientListModel>>("sample-data/ingredients.json");
+            Ingredients = await IngredientFacade.GetIngredientsAsync();
 
             await base.OnInitializedAsync();
+        }
+        public async Task Save()
+        {
+            await RecipeFacade.SaveAsync(Data);
+            navigationManager.NavigateTo($"/recipes");
+
+        }
+
+        public async Task Delete()
+        {
+            await RecipeFacade.DeleteAsync(Id);
+            navigationManager.NavigateTo($"/recipes");
+        }
+
+        public void DeleteIngredient(RecipeDetailIngredientModel ingredient)
+        {
+            var ingredientIndex = Data.Ingredients.IndexOf(ingredient);
+            Data.Ingredients.RemoveAt(ingredientIndex);
+        }
+
+        public void AddIngredient()
+        {
+            Data.Ingredients.Add(NewIngredientModel);
+            NewIngredientModel = new RecipeDetailIngredientModel();
         }
     }
 }

@@ -9,8 +9,14 @@ namespace CookBook.WEB.BL
     {
         public void Install(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddSingleton<IIngredientClient, IngredientClient>();
-            serviceCollection.AddSingleton<IRecipeClient, RecipeClient>();
+            serviceCollection.AddTransient<IIngredientClient, IngredientClient>();
+            serviceCollection.AddTransient<IRecipeClient, RecipeClient>();
+            
+            serviceCollection.Scan(selector =>
+                selector.FromCallingAssembly()
+                    .AddClasses(classes => classes.AssignableTo<IAppFacade>())
+                    .AsSelfWithInterfaces()
+                    .WithTransientLifetime());
         }
     }
 }

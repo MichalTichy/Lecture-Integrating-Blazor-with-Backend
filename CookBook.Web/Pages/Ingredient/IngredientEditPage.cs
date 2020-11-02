@@ -13,7 +13,7 @@ namespace CookBook.Web.Pages
 
         public void NavigateBack()
         {
-            navigationManager.NavigateTo("/ingredients");
+            navigationManager.NavigateTo($"/ingredients");
         }
     }
 }

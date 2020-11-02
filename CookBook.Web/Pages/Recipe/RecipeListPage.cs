@@ -4,21 +4,20 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using CookBook.Models;
+using CookBook.WEB.BL.Facades;
 
 namespace CookBook.Web.Pages
 {
     public partial class RecipeListPage
     {
         [Inject]
-        private HttpClient httpClient { get; set; }
+        private RecipesFacade RecipeFacade { get; set; }
 
-        private IList<RecipeListModel> Recipes { get; set; } = new List<RecipeListModel>();
+        private ICollection<RecipeListModel> Recipes { get; set; } = new List<RecipeListModel>();
 
         protected override async Task OnInitializedAsync()
-        {
-            var response = await httpClient.GetAsync("sample-data/recipes.json");
-            var responseText = await response.Content.ReadAsStringAsync();
-            Recipes = JsonConvert.DeserializeObject<List<RecipeListModel>>(responseText);
+        {   
+            Recipes = await RecipeFacade.GetRecipesAsync();
 
             await base.OnInitializedAsync();
         }
