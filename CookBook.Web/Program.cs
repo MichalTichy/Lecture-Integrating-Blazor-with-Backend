@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using CookBook.WEB.BL;
 
 namespace CookBook.Web
 {
@@ -13,9 +14,14 @@ namespace CookBook.Web
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-
+            Install(builder);
             await builder.Build().RunAsync();
+        }
+
+        private static void Install(WebAssemblyHostBuilder builder)
+        {
+            builder.Services.AddScoped(sp => new HttpClient {BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)});
+            new BLWebInstaller().Install(builder.Services);
         }
     }
 }
