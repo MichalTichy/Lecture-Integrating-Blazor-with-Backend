@@ -69,7 +69,9 @@ namespace CookBook.Api
 
             new DALInstaller().Install(services);
             new BLApiInstaller().Install(services);
-
+            
+            services.AddAutoMapper(typeof(DALInstaller), typeof(BLApiInstaller));
+            
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(builder =>
@@ -77,8 +79,6 @@ namespace CookBook.Api
                         .AllowAnyHeader()
                         .AllowAnyMethod());
             });
-
-            services.AddAutoMapper(typeof(DALInstaller), typeof(BLApiInstaller));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMapper mapper)
